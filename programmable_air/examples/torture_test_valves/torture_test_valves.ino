@@ -1,0 +1,41 @@
+// Programmable Air
+// Author: tinkrmind
+// github.com/tinkrmind/programmable-air
+//
+// Switch on all valves one by one quickly, indefinitely
+//
+// PCB v0.2
+//
+
+#include "programmable_air.h"
+
+int i = 0;
+
+void setup() {
+  Serial.begin(115200);
+  while (!Serial);
+
+  // Initiate with all valve and pumps off
+  initializePins();
+
+  //switch on pumps
+  digitalWrite(pump[0], 25);
+  digitalWrite(pump[1], 25);
+}
+
+void loop() {
+  Serial.println(readPressure());
+  if (!digitalRead(btn[0])) {
+    delay(100);
+    suck(0);
+    delay(100);
+    vent(0);
+    delay(100);
+    blow(0);
+    delay(100);
+  }
+  else{
+    delay(100);
+  }
+}
+
