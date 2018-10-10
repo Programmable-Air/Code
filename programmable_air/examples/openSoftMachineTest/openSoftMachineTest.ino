@@ -1,27 +1,27 @@
+// Programmable-Air
+// Author: tinkrmind
+// https://github.com/orgs/Programmable-Air
+// http://opensoftmachines.com/
+//
+// PCB v0.3/v0.4
+
 #include "programmable_air.h"
+
+#define DEBUG 1
 
 int state = UN_KNOWN;
 
 void setup() {
-  Serial.begin(115200);
-
   initializePins();
 
   switchOnPump(1, 50);
   switchOnPump(2, 50);
-
-//  suck();
-//
-//  while(1) {
-//    float pressure = readPressure();
-//    Serial.println(pressure);
-//    delay(200);
-//  }
 }
 
 void loop() {
-  float pressure = readPressure();
+  int pressure = readPressure();
   Serial.println(pressure);
+
   if (!digitalRead(btn1)) {
     blow(0);
   }
@@ -73,4 +73,3 @@ void loop() {
     delay(200);
   }
 }
-
