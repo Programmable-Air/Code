@@ -2,7 +2,8 @@
 // Author: tinkrmind
 // github.com/tinkrmind/programmable-air
 //
-// Switch on all valves one by one quickly, indefinitely
+// Pressing btn1 will switch on pumps and squentially switch on all valves
+// Pressing btn2 will vent
 //
 // PCB v0.3/v0.4
 //
@@ -21,22 +22,30 @@ void setup() {
 
 void loop() {
   Serial.println(readPressure());
-  if (!digitalRead(btn[0])) {
+
+  if (readBtn(1)) {
     //switch on pumps
     switchOnPumps();
 
-    suck();
-    delay(1000);
-    vent();
-    delay(1000);
     blow();
-    delay(1000);
+    delay(500);
+    vent();
+    delay(500);
+    suck();
+    delay(500);
+  }
+  else if (readBtn(2)) {
+    //switch off pumps
+    switchOffPumps();
+
+    vent();
   }
   else {
     //switch off pumps
     switchOffPumps();
 
-    setAllValves(0);
-    delay(100);
+    setAllValves(CLOSED);
   }
+
+  delay(200);
 }

@@ -16,6 +16,8 @@ const int temp_sense[2] = {A6, A7};
 
 #define OPEN 1
 #define CLOSE 0
+#define OPENED 1
+#define CLOSED 0
 // vacuum, atmosphere, pressure
 const int valve[9] = {   5,  4,  6,  \
                          8,  7,  9,  \
@@ -39,6 +41,8 @@ void blow(int i = 0);
 void vent(int i = 0);
 void ventQuick(int i = 0);
 void suck(int i = 0);
+
+int readBtn(int i);
 
 int readPressure(int num = 0, int times = 1);
 
@@ -78,7 +82,7 @@ void initializePins() {
   }
   neopixel.show();
   #ifdef DEBUG
-    Serial.println("Pins initialised. Not 'initialized'. 'Initialised'.");
+    Serial.println("Pins initialised. Not 'initialized'. 'initialised'.");
   #endif
 }
 
@@ -126,6 +130,10 @@ void suck(int i=0) {
     setValve(i * 3 + 1, CLOSE);
     setValve(i * 3 + 2, OPEN);
   }
+}
+
+int readBtn(int i){
+  return !digitalRead(btn[i-1]);
 }
 
 // Read pressure
@@ -239,7 +247,6 @@ void switchOffLoad(){
   #endif
   digitalWrite(load, LOW);
 }
-
 
 #endif
 //

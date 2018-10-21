@@ -2,6 +2,8 @@
 // Author: tinkrmind
 // https://github.com/orgs/Programmable-Air
 //
+// Jamming gripper
+//
 // PCB v0.3/v0.4
 
 #include "programmable_air.h"
@@ -12,25 +14,31 @@ int state = UN_KNOWN;
 
 void setup() {
   initializePins();
-  switchOnPump(1, 75);
-  switchOnPump(2, 50);
+
+  // switch on pumps to 50% power
+  switchOnPumps(50);
 }
 
 void loop() {
-  if (!digitalRead(btn2) && state != SUCKING) {
+  Serial.println(readPressure());
+
+  // If btn2 is pressed start sucking
+  if (readBtn(2) && state != SUCKING) {
     suck();
     state = SUCKING;
   }
-  else if (!digitalRead(btn1) && state != BLOWING) {
+  // if btn1 is pressed, start blowing
+  else if (readBtn(1) && state != BLOWING) {
     blow();
     state = BLOWING;
   }
-  else if(digitalRead(btn2) && state != VENTING){
+  // if nither button is pressed, vent (but blow for a bit to let go of the object)
+  else if(state != VENTING){
     blow();
     delay(250);
     vent();
     state = VENTING;
   }
-  Serial.println(readPressure());
-  delay(100);
+
+  delay(200);
 }
