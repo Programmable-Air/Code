@@ -1,6 +1,6 @@
 // Programmable Air
 // Author: tinkrmind
-// https://github.com/orgs/Programmable-Air
+// github.com/tinkrmind/programmable-air
 //
 // Pressing btn1 will switch on pumps and squentially switch on all valves
 // Pressing btn2 will vent
@@ -18,6 +18,13 @@ void setup() {
 
   // Initiate with all valve and pumps off
   initializePins();
+
+  Serial.println("This is a test!");
+
+  for (int i = 0; i < 3; i++) {
+    neopixel.setPixelColor(i, neopixel.Color(0, 50, 50));
+  }
+  neopixel.show();
 }
 
 void loop() {
@@ -28,11 +35,11 @@ void loop() {
     switchOnPumps();
 
     blow();
-    delay(500);
+    delay(250);
     vent();
-    delay(500);
+    delay(250);
     suck();
-    delay(500);
+    delay(250);
   }
   else if (readBtn(2)) {
     //switch off pumps
