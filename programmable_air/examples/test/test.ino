@@ -1,6 +1,6 @@
 // Programmable Air
 // Author: tinkrmind
-// github.com/tinkrmind/programmable-air
+// https://github.com/orgs/Programmable-Air
 //
 // Pressing btn1 will switch on pumps and squentially switch on all valves
 // Pressing btn2 will vent
