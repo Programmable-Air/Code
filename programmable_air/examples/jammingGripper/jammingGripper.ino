@@ -20,23 +20,23 @@ void setup() {
 }
 
 void loop() {
-  Serial.println(readPressure());
+  Serial.println(readPressure(0,1));
 
   // If btn2 is pressed start sucking
   if (readBtn(2) && state != SUCKING) {
-    suck();
+    suck(0);
     state = SUCKING;
   }
   // if btn1 is pressed, start blowing
   else if (readBtn(1) && state != BLOWING) {
-    blow();
+    blow(0);
     state = BLOWING;
   }
   // if nither button is pressed, vent (but blow for a bit to let go of the object)
   else if(state != VENTING){
-    blow();
+    blow(0);
     delay(250);
-    vent();
+    vent(0);
     state = VENTING;
   }
 

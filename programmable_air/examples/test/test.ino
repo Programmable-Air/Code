@@ -28,24 +28,24 @@ void setup() {
 }
 
 void loop() {
-  Serial.println(readPressure());
+  Serial.println(readPressure(0,1));
 
   if (readBtn(1)) {
     //switch on pumps
     switchOnPumps();
 
-    blow();
+    blow(0);
     delay(250);
-    vent();
+    vent(0);
     delay(250);
-    suck();
+    suck(0);
     delay(250);
   }
   else if (readBtn(2)) {
     //switch off pumps
     switchOffPumps();
 
-    vent();
+    vent(0);
   }
   else {
     //switch off pumps

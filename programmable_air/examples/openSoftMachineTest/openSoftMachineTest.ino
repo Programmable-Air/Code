@@ -31,26 +31,26 @@ void setup() {
 }
 
 void loop() {
-  int pressure = readPressure();
+  int pressure = readPressure(0,1);
   int pressure_diff = atmospheric_pressure - pressure;
   Serial.println(pressure_diff);
 
   if (readBtn(1)) {
-    blow();
+    blow(0);
   }
   else if (readBtn(2)) {
-    suck();
+    suck(0);
   }
   else {
     switch (state) {
       // if we don't know the state blow until the pressure reaches atmospheric_pressure
       case UN_KNOWN:
         if (pressure_diff > 0) {
-          suck();
+          suck(0);
           state = DECREASING;
         }
         else {
-          blow();
+          blow(0);
           state = INCREASING;
         }
         break;
@@ -58,20 +58,20 @@ void loop() {
       // we are blowing up the robot. Start sucking after pressure reaches upper_threshold
       case INCREASING:
         if (pressure_diff > upper_threshold) {
-          suck();
+          suck(0);
           state = DECREASING;
         } else {
-          blow();
+          blow(0);
         }
         break;
 
       // we are deflating the robot. Start blowing after pressure reaches lower_threshold
       case DECREASING:
         if (pressure_diff < lower_threshold) {
-          blow();
+          blow(0);
           state = INCREASING;
         } else {
-          suck();
+          suck(0);
         }
         break;
     }

@@ -24,7 +24,7 @@ void setup() {
 }
 
 void loop() {
-  int pressure = readPressure();
+  int pressure = readPressure(0, 1);
   Serial.print(pressure);
 
   int pressure_diff = pressure - atmospheric_pressure;

@@ -53,26 +53,26 @@ const int load = 13;
 
 void initializePins();
 
-void blow(int i = 0); // opens valve connected to compressed air
-void vent(int i = 0); // opens valve connected to atmosphere
-void ventQuick(int i = 0); // opens both valve connected to atmosphere and vaccuum
-void suck(int i = 0); // opens valve connected to vaccuum
+void blow(int i); // opens valve connected to compressed air
+void vent(int i); // opens valve connected to atmosphere
+void ventQuick(int i); // opens both valve connected to atmosphere and vaccuum
+void suck(int i); // opens valve connected to vaccuum
 
 int readBtn(int i); // i=1 or 2, returns 0 if button is not pressed, 1 if button is pressed
 
-int readPressure(int num = 0, int times = 1); //reads pressure and returns value from 0 to 1024. Pressure read in arbitrary units. averages 'times' number of times
+int readPressure(int num, int times); //reads pressure and returns value from 0 to 1024. Pressure read in arbitrary units. averages 'times' number of times
 
 void setAllValves(int position); // sets all valve to given position (0 = closed, 1 = open)
 void setValve(int num, int position); // sets valve # 'number' to position
 void closeAllValves(); // closes(blocks) all valves
 
 
-void switchOnPump(int num,  int percentagePower = 100); // switches on pump # 'num' to percentagePower PWM(100% by default)
+void switchOnPump(int num,  int percentagePower); // switches on pump # 'num' to percentagePower PWM(100% by default)
 void switchOffPump(int num); // switches off pump # 'num'
-void switchOnPumps(int percentagePower = 100); // switches on both pumps to percentagePower
+void switchOnPumps(int percentagePower); // switches on both pumps to percentagePower
 void switchOffPumps(); // switches off both pumps
 
-void switchOnLoad(int percentagePower = 100); // switches on the transistor swithch connected to pin #13 to PWM percentagePower
+void switchOnLoad(int percentagePower); // switches on the transistor swithch connected to pin #13 to PWM percentagePower
 void switchOffLoad(); // switches off the transistor swithch connected to pin #13
 
 void initializePins() {
@@ -106,7 +106,7 @@ void initializePins() {
 
 //0-blow, 1-vent, 2-suck
 
-void blow(int i=0) {
+void blow(int i) {
   #ifdef DEBUG
     Serial.println("blow from daughter board # %d", i);
   #endif
@@ -117,7 +117,7 @@ void blow(int i=0) {
   }
 }
 
-void vent(int i=0) {
+void vent(int i) {
   #ifdef DEBUG
     Serial.println("vent from daughter board # %d", i);
   #endif
@@ -128,7 +128,7 @@ void vent(int i=0) {
   }
 }
 
-void ventQuick(int i=0) {
+void ventQuick(int i) {
   #ifdef DEBUG
     Serial.println("ventQuick from daughter board # %d", i);
   #endif
@@ -139,7 +139,7 @@ void ventQuick(int i=0) {
   }
 }
 
-void suck(int i=0) {
+void suck(int i) {
   #ifdef DEBUG
     Serial.println("suck from daughter board # %d", i);
   #endif
@@ -155,7 +155,7 @@ int readBtn(int i){
 }
 
 // Read pressure
-int readPressure(int num = 0, int times = 1) {
+int readPressure(int num, int times) {
   #ifdef DEBUG
     Serial.print("reading pressure sensor ");
     Serial.print(num);
@@ -225,7 +225,7 @@ void closeAllValves(){
 }
 
 
-void switchOnPump(int num,  int percentagePower = 100) {
+void switchOnPump(int num,  int percentagePower) {
   #ifdef DEBUG
     Serial.println("Setting pump # %d to %d percent power", number, percentagePower);
   #endif
@@ -243,7 +243,7 @@ void switchOffPump(int num) {
   }
 }
 
-void switchOnPumps(int percentagePower = 100) {
+void switchOnPumps(int percentagePower) {
   #ifdef DEBUG
     Serial.println("Setting both pumps to %d percent power", percentagePower);
   #endif
@@ -259,7 +259,7 @@ void switchOffPumps() {
   digitalWrite(pump[1], LOW);
 }
 
-void switchOnLoad(int percentagePower = 100){
+void switchOnLoad(int percentagePower){
   #ifdef DEBUG
     Serial.println("Setting load to %d percent power", percentagePower);
   #endif
