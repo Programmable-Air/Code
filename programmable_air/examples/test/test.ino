@@ -44,7 +44,7 @@ void loop() {
     //switch off pumps
     switchOffPumps();
 
-    setAllValves(CLOSED);
+    closeAllValves();
   }
 
   delay(200);

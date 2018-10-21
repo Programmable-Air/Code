@@ -18,6 +18,15 @@ const int temp_sense[2] = {A6, A7};
 #define CLOSE 0
 #define OPENED 1
 #define CLOSED 0
+
+#define UN_KNOWN -9
+#define INCREASING 1
+#define DECREASING -1
+
+#define SUCKING -1
+#define BLOWING 1
+#define VENTING 0
+
 // vacuum, atmosphere, pressure
 const int valve[9] = {   5,  4,  6,  \
                          8,  7,  9,  \
@@ -48,6 +57,8 @@ int readPressure(int num = 0, int times = 1);
 
 void setAllValves(int position);
 void setValve(int number, int position);
+void closeAllValves();
+
 
 void switchOnPump(int num,  int percentagePower = 100);
 void switchOffPump(int num);
@@ -199,6 +210,13 @@ void setValve(int number, int position) {
     digitalWrite(valve[number], LOW);
   }
 }
+
+void closeAllValves(){
+  for (int i = 0; i < 12; i++) {
+    digitalWrite(valve[i], LOW);
+  }
+}
+
 
 void switchOnPump(int num,  int percentagePower = 100) {
   #ifdef DEBUG
