@@ -18,6 +18,9 @@ const int temp_sense[2] = {A6, A7};
 #define CLOSE 0
 #define OPENED 1
 #define CLOSED 0
+#define BLOCK 0
+#define BLOCKED 0
+#define BLOCKING 0
 
 #define UN_KNOWN -9
 #define INCREASING 1
@@ -33,40 +36,44 @@ const int valve[9] = {   5,  4,  6,  \
                          A1, A4, A0
                      };
 
+// connected to outputs of pressure sensor opAmps
 const int sense[3] = {A3, A2, A5};
 
 int readPressure(int num, int times);
 
 #define neopixelPin 12
-const int btn[2] = { 2, 3 };
-
+// three neopixels are connected to pin #12 to act as user defined outputs
 Adafruit_NeoPixel neopixel = Adafruit_NeoPixel(3, neopixelPin, NEO_GRB + NEO_KHZ800);
 
+// buttons are connected to hardware interrupts
+const int btn[2] = { 2, 3 };
+
+// a transistor switch ois connected to pin #13
 const int load = 13;
 
 void initializePins();
 
-void blow(int i = 0);
-void vent(int i = 0);
-void ventQuick(int i = 0);
-void suck(int i = 0);
+void blow(int i = 0); // opens valve connected to compressed air
+void vent(int i = 0); // opens valve connected to atmosphere
+void ventQuick(int i = 0); // opens both valve connected to atmosphere and vaccuum
+void suck(int i = 0); // opens valve connected to vaccuum
 
-int readBtn(int i);
+int readBtn(int i); // i=1 or 2, returns 0 if button is not pressed, 1 if button is pressed
 
-int readPressure(int num = 0, int times = 1);
+int readPressure(int num = 0, int times = 1); //reads pressure and returns value from 0 to 1024. Pressure read in arbitrary units. averages 'times' number of times
 
-void setAllValves(int position);
-void setValve(int number, int position);
-void closeAllValves();
+void setAllValves(int position); // sets all valve to given position (0 = closed, 1 = open)
+void setValve(int num, int position); // sets valve # 'number' to position
+void closeAllValves(); // closes(blocks) all valves
 
 
-void switchOnPump(int num,  int percentagePower = 100);
-void switchOffPump(int num);
-void switchOnPumps(int percentagePower = 100);
-void switchOffPumps();
+void switchOnPump(int num,  int percentagePower = 100); // switches on pump # 'num' to percentagePower PWM(100% by default)
+void switchOffPump(int num); // switches off pump # 'num'
+void switchOnPumps(int percentagePower = 100); // switches on both pumps to percentagePower
+void switchOffPumps(); // switches off both pumps
 
-void switchOnLoad(int percentagePower = 100);
-void switchOffLoad();
+void switchOnLoad(int percentagePower = 100); // switches on the transistor swithch connected to pin #13 to PWM percentagePower
+void switchOffLoad(); // switches off the transistor swithch connected to pin #13
 
 void initializePins() {
   Serial.begin(115200);
@@ -193,9 +200,9 @@ void setAllValves(int position) {
   }
 }
 
-void setValve(int number, int position) {
+void setValve(int num, int position) {
   #ifdef DEBUG
-    Serial.print("Setting valve # %d to ", number)
+    Serial.print("Setting valve # %d to ", num)
     if(position == OPEN){
       Serial.println("open");
     } else{
@@ -203,11 +210,11 @@ void setValve(int number, int position) {
     }
   #endif
   if (position == OPEN) {
-    digitalWrite(valve[number], HIGH);
+    digitalWrite(valve[num], HIGH);
   }
 
   if (position == CLOSE) {
-    digitalWrite(valve[number], LOW);
+    digitalWrite(valve[num], LOW);
   }
 }
 
