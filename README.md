@@ -14,9 +14,6 @@ Arduino library for Programmable-Air
 * If you do not have Adafruit Neopixel library already installed, you will need to install it as well. [Instructions](https://learn.adafruit.com/adafruit-neopixel-uberguide/arduino-library-installation#install-adafruit-neopixel-via-library-manager-13-2).
 
 ### Hardware		
-* Remove the Arduino Nano from the Programmable-Air unit
-* Connect the Arduino to your computer with a USB cable and make sure it DOES NOT power on. This is done to separate computer USB power from Arduino Nano +5V.
-* Disconnect the Arduino from your computer and place it back on the Programmable-Air unit
 * Power up the Programmable-Air unit by connecting 12V adapter. Then connect the USB cable to your computer.
 
 ### Uploading code
