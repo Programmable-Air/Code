@@ -4,6 +4,8 @@ Arduino library for Programmable-Air
 
 ## Getting started:
 
+As a first step you will was to read the [README](https://github.com/Programmable-Air/PCB/) file in the PCB section to get acquainted with the hardware. This is not necessary as such, but highly recommended.
+
 ### Software
 * Download and install Arduino 1.8.5
 * Download the Programmable-Air library at https://github.com/Programmable-Air/Code
@@ -21,3 +23,5 @@ Arduino library for Programmable-Air
 * Select Tools>Board>Arduino Nano
 * If you are on a new version of Arduino >=1.8.7 select Processor: AtMega328(Old bootloader)
 * Select the corresponding Port (if no new port shows up you’ll have to download and install the CH340 drivers- [Mac](http://www.wch.cn/downloads/CH341SER_MAC_ZIP.html) [Windows](http://www.wch.cn/downloads/CH341SER_ZIP.html) [Linux](http://www.wch.cn/downloads/CH341SER_LINUX_ZIP.html) ) The link looks sketchy and in Chinese, but it is the manufacturer’s website with the most updated version of the driver. Refrain from downloading drivers from any other source!
+
+That's it! Try uploading the pressureSensor example and launch the Serial plotter to see the pressure plot. Blow into the output tube, or suck the air out to see the change in pressure.
