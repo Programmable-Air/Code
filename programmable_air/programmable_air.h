@@ -61,11 +61,13 @@ void suck(int i); // opens valve connected to vaccuum
 int readBtn(int i); // i=1 or 2, returns 0 if button is not pressed, 1 if button is pressed
 
 int readPressure(int num, int times); //reads pressure and returns value from 0 to 1024. Pressure read in arbitrary units. averages 'times' number of times
+float readPressurePSI(int num, int times); // converts the analogRead to PSI and returns float
+float readPressureBar(int num, int times); // converts the analogRead to bar and returns float
+float readPressureAtm(int num, int times); // converts the analogRead to atm and returns float
 
 void setAllValves(int position); // sets all valve to given position (0 = closed, 1 = open)
 void setValve(int num, int position); // sets valve # 'number' to position
 void closeAllValves(); // closes(blocks) all valves
-
 
 void switchOnPump(int num,  int percentagePower); // switches on pump # 'num' to percentagePower PWM(100% by default)
 void switchOffPump(int num); // switches off pump # 'num'
@@ -176,6 +178,22 @@ int readPressure(int num, int times) {
   #endif
 
   return int(pressure);
+}
+
+// converts the analogRead to PSI and returns float
+float readPressurePSI(int num, int times){
+  float _pressure = 0;
+  return _pressure;
+}
+// converts the analogRead to bar and returns float
+float readPressureBar(int num, int times){
+  float _pressure = 0;
+  return _pressure;
+}
+// converts the analogRead to atm and returns float
+float readPressureAtm(int num, int times){
+  float _pressure = 0;
+  return _pressure;
 }
 
 void setAllValves(int position) {

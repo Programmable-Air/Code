@@ -4,8 +4,9 @@
 // http://opensoftmachines.com/
 //
 // Cycles through pressure
+// Demo video: https://vimeo.com/291361549
 //
-// PCB v0.3/v0.4
+// PCB v0.3/v0.4/v0.5
 
 #include "programmable_air.h"
 
@@ -31,26 +32,26 @@ void setup() {
 }
 
 void loop() {
-  int pressure = readPressure(0,1);
+  int pressure = readPressure();
   int pressure_diff = atmospheric_pressure - pressure;
   Serial.println(pressure_diff);
 
-  if (readBtn(1)) {
-    blow(0);
+  if (readBtn(RED)) {
+    blow();
   }
-  else if (readBtn(2)) {
-    suck(0);
+  else if (readBtn(BLUE)) {
+    suck();
   }
   else {
     switch (state) {
       // if we don't know the state blow until the pressure reaches atmospheric_pressure
       case UN_KNOWN:
         if (pressure_diff > 0) {
-          suck(0);
+          suck();
           state = DECREASING;
         }
         else {
-          blow(0);
+          blow();
           state = INCREASING;
         }
         break;
@@ -58,20 +59,20 @@ void loop() {
       // we are blowing up the robot. Start sucking after pressure reaches upper_threshold
       case INCREASING:
         if (pressure_diff > upper_threshold) {
-          suck(0);
+          suck();
           state = DECREASING;
         } else {
-          blow(0);
+          blow();
         }
         break;
 
       // we are deflating the robot. Start blowing after pressure reaches lower_threshold
       case DECREASING:
         if (pressure_diff < lower_threshold) {
-          blow(0);
+          blow();
           state = INCREASING;
         } else {
-          suck(0);
+          suck();
         }
         break;
     }

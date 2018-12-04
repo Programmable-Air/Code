@@ -2,10 +2,10 @@
 // Author: tinkrmind
 // github.com/tinkrmind/programmable-air
 //
-// Pressing btn1 will switch on pumps and squentially switch on all valves
-// Pressing btn2 will vent
+// Pressing red button will switch on pumps and squentially switch on all valves
+// Pressing blue button will vent
 //
-// PCB v0.3/v0.4
+// PCB v0.3/v0.4/v0.5
 //
 
 #include "programmable_air.h"
@@ -28,24 +28,24 @@ void setup() {
 }
 
 void loop() {
-  Serial.println(readPressure(0,1));
+  Serial.println(readPressure());
 
-  if (readBtn(1)) {
+  if (readBtn(RED)) {
     //switch on pumps
     switchOnPumps();
 
-    blow(0);
-    delay(250);
-    vent(0);
-    delay(250);
-    suck(0);
-    delay(250);
+    blow();
+    delayWhileReadingPressure(250);
+    vent();
+    delayWhileReadingPressure(250);
+    suck();
+    delayWhileReadingPressure(250);
   }
-  else if (readBtn(2)) {
+  else if (readBtn(BLUE)) {
     //switch off pumps
     switchOffPumps();
 
-    vent(0);
+    vent();
   }
   else {
     //switch off pumps
@@ -54,5 +54,13 @@ void loop() {
     closeAllValves();
   }
 
-  delay(200);
+  delay(20);
+}
+
+void delayWhileReadingPressure(unsigned long del){
+  unsigned long startTime = millis();
+  while(millis() - startTime < del){
+    Serial.println(readPressure());
+    delay(20);
+  }
 }

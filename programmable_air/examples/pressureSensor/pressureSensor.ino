@@ -3,6 +3,7 @@
 // https://github.com/orgs/Programmable-Air
 //
 // Reads pressure
+// Demo video: https://vimeo.com/268358944
 //
 // PCB v0.3/v0.4
 
@@ -24,23 +25,24 @@ void setup() {
 }
 
 void loop() {
-  int pressure = readPressure(0, 1);
+  int pressure = readPressure();
   Serial.println(pressure);
 
   int pressure_diff = pressure - atmospheric_pressure;
 
   if (pressure_diff > threshold) {
-    for (int i = 0; i < 3; i++) {
-      neopixel.setPixelColor(i, neopixel.Color(pressure_diff, 0, pressure_diff));
-    }
-    neopixel.show();
+    setAllNeopixels(neopixel.Color(pressure_diff, 0, pressure_diff));
   }
   else {
-    for (int i = 0; i < 3; i++) {
-      neopixel.setPixelColor(i, neopixel.Color(0, 0, 0));
-    }
-    neopixel.show();
+    setAllNeopixels(neopixel.Color(0, 0, 0));
   }
 
   delay(50);
+}
+
+void setAllNeopixels(uint32_t c){
+    for (int i = 0; i < 3; i++) {
+      neopixel.setPixelColor(i, c);
+    }
+    neopixel.show();
 }

@@ -3,8 +3,11 @@
 // https://github.com/orgs/Programmable-Air
 //
 // Jamming gripper
+// Demo video: https://vimeo.com/268358891
+// Also works as an SMD pick and place!
+// Demo video: https://vimeo.com/268358924
 //
-// PCB v0.3/v0.4
+// PCB v0.3/v0.4/v0.5
 
 #include "programmable_air.h"
 
@@ -20,23 +23,23 @@ void setup() {
 }
 
 void loop() {
-  Serial.println(readPressure(0,1));
+  Serial.println(readPressure());
 
-  // If btn2 is pressed start sucking
-  if (readBtn(2) && state != SUCKING) {
-    suck(0);
+  // If blue button is pressed start sucking
+  if (readBtn(BLUE) && state != SUCKING) {
+    suck();
     state = SUCKING;
   }
-  // if btn1 is pressed, start blowing
-  else if (readBtn(1) && state != BLOWING) {
-    blow(0);
+  // if red button is pressed, start blowing
+  else if (readBtn(RED) && state != BLOWING) {
+    blow();
     state = BLOWING;
   }
   // if nither button is pressed, vent (but blow for a bit to let go of the object)
   else if(state != VENTING){
-    blow(0);
+    blow();
     delay(250);
-    vent(0);
+    vent();
     state = VENTING;
   }
 
