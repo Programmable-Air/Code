@@ -25,7 +25,7 @@ void setup() {
 
 void loop() {
   int pressure = readPressure(0, 1);
-  Serial.print(pressure);
+  Serial.println(pressure);
 
   int pressure_diff = pressure - atmospheric_pressure;
 
@@ -42,5 +42,5 @@ void loop() {
     neopixel.show();
   }
 
-  delay(200);
+  delay(50);
 }
