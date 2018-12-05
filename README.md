@@ -7,11 +7,8 @@ Arduino library for Programmable-Air
 As a first step you will was to read the [README](https://github.com/Programmable-Air/PCB/) file in the PCB section to get acquainted with the hardware. This is not necessary as such, but highly recommended.
 
 ### Software
-* Download and install Arduino 1.8.5
-* Download the Programmable-Air library at https://github.com/Programmable-Air/Code
-* Extract the files
-* Move the programmable_air folder to Documents/Arduino/libraries
-* Restart the Arduino IDE
+* Download and install Arduino 1.8.7
+* Download the Programmable-Air library at https://github.com/Programmable-Air/Code Instructions on how to install a new library in Arduino [here](https://www.arduino.cc/en/Guide/Libraries#toc4)
 * Now there should be a programmable_air folder in File>examples
 * If you do not have Adafruit Neopixel library already installed, you will need to install it as well. [Instructions](https://learn.adafruit.com/adafruit-neopixel-uberguide/arduino-library-installation#install-adafruit-neopixel-via-library-manager-13-2).
 
