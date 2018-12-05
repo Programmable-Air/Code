@@ -30,7 +30,7 @@ void setup() {
 void loop() {
   Serial.println(readPressure());
 
-  if (readBtn(RED)) {
+  if (readBtn(BLUE)) {
     //switch on pumps
     switchOnPumps();
 
@@ -41,7 +41,7 @@ void loop() {
     suck();
     delayWhileReadingPressure(250);
   }
-  else if (readBtn(BLUE)) {
+  else if (readBtn(RED)) {
     //switch off pumps
     switchOffPumps();
 

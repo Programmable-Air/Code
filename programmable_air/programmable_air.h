@@ -2,7 +2,8 @@
 // Author: tinkrmind
 // https://github.com/orgs/Programmable-Air
 //
-// PCB v0.3/v0.4
+// PCB v0.3/v0.4/v0.5
+//
 
 #ifndef programmable_air_h
 #define programmable_air_h
@@ -18,9 +19,6 @@ const int temp_sense[2] = {A6, A7};
 #define CLOSE 0
 #define OPENED 1
 #define CLOSED 0
-#define BLOCK 0
-#define BLOCKED 0
-#define BLOCKING 0
 
 #define UN_KNOWN -9
 #define INCREASING 1
@@ -30,52 +28,48 @@ const int temp_sense[2] = {A6, A7};
 #define BLOWING 1
 #define VENTING 0
 
-// vacuum, atmosphere, pressure
-const int valve[9] = {   5,  4,  6,  \
-                         8,  7,  9,  \
-                         A1, A4, A0
+#define RED 1
+#define BLUE 2
+
+// pressure, atmosphere, vaccuum
+const int valve[9] = {   4,  5,  6,  \
+                         7,  8,  9,  \
+                         A4, A1, A0
                      };
 
-// connected to outputs of pressure sensor opAmps
 const int sense[3] = {A3, A2, A5};
 
 int readPressure(int num, int times);
 
 #define neopixelPin 12
-// three neopixels are connected to pin #12 to act as user defined outputs
-Adafruit_NeoPixel neopixel = Adafruit_NeoPixel(3, neopixelPin, NEO_GRB + NEO_KHZ800);
-
-// buttons are connected to hardware interrupts
 const int btn[2] = { 2, 3 };
 
-// a transistor switch ois connected to pin #13
+Adafruit_NeoPixel neopixel = Adafruit_NeoPixel(3, neopixelPin, NEO_GRB + NEO_KHZ800);
+
 const int load = 13;
 
 void initializePins();
 
-void blow(int i); // opens valve connected to compressed air
-void vent(int i); // opens valve connected to atmosphere
-void ventQuick(int i); // opens both valve connected to atmosphere and vaccuum
-void suck(int i); // opens valve connected to vaccuum
+void blow(int i = 0);
+void vent(int i = 0);
+void ventQuick(int i = 0);
+void suck(int i = 0);
 
-int readBtn(int i); // i=1 or 2, returns 0 if button is not pressed, 1 if button is pressed
+int readBtn(int i);
 
-int readPressure(int num, int times); //reads pressure and returns value from 0 to 1024. Pressure read in arbitrary units. averages 'times' number of times
-float readPressurePSI(int num, int times); // converts the analogRead to PSI and returns float
-float readPressureBar(int num, int times); // converts the analogRead to bar and returns float
-float readPressureAtm(int num, int times); // converts the analogRead to atm and returns float
+int readPressure(int num = 0, int times = 1);
 
-void setAllValves(int position); // sets all valve to given position (0 = closed, 1 = open)
-void setValve(int num, int position); // sets valve # 'number' to position
-void closeAllValves(); // closes(blocks) all valves
+void setAllValves(int position);
+void setValve(int number, int position);
+void closeAllValves();
 
-void switchOnPump(int num,  int percentagePower); // switches on pump # 'num' to percentagePower PWM(100% by default)
-void switchOffPump(int num); // switches off pump # 'num'
-void switchOnPumps(int percentagePower); // switches on both pumps to percentagePower
-void switchOffPumps(); // switches off both pumps
+void switchOnPump(int num,  int percentagePower = 100);
+void switchOffPump(int num);
+void switchOnPumps(int percentagePower = 100);
+void switchOffPumps();
 
-void switchOnLoad(int percentagePower); // switches on the transistor swithch connected to pin #13 to PWM percentagePower
-void switchOffLoad(); // switches off the transistor swithch connected to pin #13
+void switchOnLoad(int percentagePower = 100);
+void switchOffLoad();
 
 void initializePins() {
   Serial.begin(115200);
@@ -108,7 +102,7 @@ void initializePins() {
 
 //0-blow, 1-vent, 2-suck
 
-void blow(int i) {
+void blow(int i=0) {
   #ifdef DEBUG
     Serial.println("blow from daughter board # %d", i);
   #endif
@@ -119,7 +113,7 @@ void blow(int i) {
   }
 }
 
-void vent(int i) {
+void vent(int i=0) {
   #ifdef DEBUG
     Serial.println("vent from daughter board # %d", i);
   #endif
@@ -130,7 +124,7 @@ void vent(int i) {
   }
 }
 
-void ventQuick(int i) {
+void ventQuick(int i=0) {
   #ifdef DEBUG
     Serial.println("ventQuick from daughter board # %d", i);
   #endif
@@ -141,7 +135,7 @@ void ventQuick(int i) {
   }
 }
 
-void suck(int i) {
+void suck(int i=0) {
   #ifdef DEBUG
     Serial.println("suck from daughter board # %d", i);
   #endif
@@ -157,7 +151,7 @@ int readBtn(int i){
 }
 
 // Read pressure
-int readPressure(int num, int times) {
+int readPressure(int num = 0, int times = 1) {
   #ifdef DEBUG
     Serial.print("reading pressure sensor ");
     Serial.print(num);
@@ -178,22 +172,6 @@ int readPressure(int num, int times) {
   #endif
 
   return int(pressure);
-}
-
-// converts the analogRead to PSI and returns float
-float readPressurePSI(int num, int times){
-  float _pressure = 0;
-  return _pressure;
-}
-// converts the analogRead to bar and returns float
-float readPressureBar(int num, int times){
-  float _pressure = 0;
-  return _pressure;
-}
-// converts the analogRead to atm and returns float
-float readPressureAtm(int num, int times){
-  float _pressure = 0;
-  return _pressure;
 }
 
 void setAllValves(int position) {
@@ -218,9 +196,9 @@ void setAllValves(int position) {
   }
 }
 
-void setValve(int num, int position) {
+void setValve(int number, int position) {
   #ifdef DEBUG
-    Serial.print("Setting valve # %d to ", num)
+    Serial.print("Setting valve # %d to ", number)
     if(position == OPEN){
       Serial.println("open");
     } else{
@@ -228,11 +206,11 @@ void setValve(int num, int position) {
     }
   #endif
   if (position == OPEN) {
-    digitalWrite(valve[num], HIGH);
+    digitalWrite(valve[number], HIGH);
   }
 
   if (position == CLOSE) {
-    digitalWrite(valve[num], LOW);
+    digitalWrite(valve[number], LOW);
   }
 }
 
@@ -242,8 +220,7 @@ void closeAllValves(){
   }
 }
 
-
-void switchOnPump(int num,  int percentagePower) {
+void switchOnPump(int num,  int percentagePower = 100) {
   #ifdef DEBUG
     Serial.println("Setting pump # %d to %d percent power", number, percentagePower);
   #endif
@@ -261,7 +238,7 @@ void switchOffPump(int num) {
   }
 }
 
-void switchOnPumps(int percentagePower) {
+void switchOnPumps(int percentagePower = 100) {
   #ifdef DEBUG
     Serial.println("Setting both pumps to %d percent power", percentagePower);
   #endif
@@ -277,7 +254,7 @@ void switchOffPumps() {
   digitalWrite(pump[1], LOW);
 }
 
-void switchOnLoad(int percentagePower){
+void switchOnLoad(int percentagePower = 100){
   #ifdef DEBUG
     Serial.println("Setting load to %d percent power", percentagePower);
   #endif
