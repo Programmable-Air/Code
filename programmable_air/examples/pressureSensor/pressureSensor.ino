@@ -9,6 +9,10 @@
 
 #include "programmable_air.h"
 
+#include <Adafruit_NeoPixel.h>
+
+Adafruit_NeoPixel pixels = Adafruit_NeoPixel(3, neopixelPin, NEO_GRB + NEO_KHZ800);
+
 #define DEBUG 1
 
 int atmospheric_pressure = 508; // should be around 508
@@ -16,6 +20,9 @@ int threshold = 4;
 
 void setup() {
   initializePins();
+
+  pixels.begin();
+  pixels.show();
 
   // Uncomment code below to read atmospheric_pressure instead of using default value
   // vent();
@@ -31,10 +38,10 @@ void loop() {
   int pressure_diff = pressure - atmospheric_pressure;
 
   if (pressure_diff > threshold) {
-    setAllNeopixels(neopixel.Color(pressure_diff, 0, pressure_diff));
+    setAllNeopixels(pixels.Color(pressure_diff, 0, pressure_diff));
   }
   else {
-    setAllNeopixels(neopixel.Color(0, 0, 0));
+    setAllNeopixels(pixels.Color(0, 0, 0));
   }
 
   delay(50);
@@ -42,7 +49,7 @@ void loop() {
 
 void setAllNeopixels(uint32_t c){
     for (int i = 0; i < 3; i++) {
-      neopixel.setPixelColor(i, c);
+      pixels.setPixelColor(i, c);
     }
-    neopixel.show();
+    pixels.show();
 }

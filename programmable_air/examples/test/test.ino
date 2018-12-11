@@ -10,6 +10,10 @@
 
 #include "programmable_air.h"
 
+#include <Adafruit_NeoPixel.h>
+
+Adafruit_NeoPixel pixels = Adafruit_NeoPixel(3, neopixelPin, NEO_GRB + NEO_KHZ800);
+
 #define DEBUG 1
 
 void setup() {
@@ -21,10 +25,13 @@ void setup() {
 
   Serial.println("This is a test!");
 
+  pixels.begin();  
+  pixels.show();
+
   for (int i = 0; i < 3; i++) {
-    neopixel.setPixelColor(i, neopixel.Color(0, 50, 50));
+    pixels.setPixelColor(i, pixels.Color(0, 50, 50));
   }
-  neopixel.show();
+  pixels.show();
 }
 
 void loop() {

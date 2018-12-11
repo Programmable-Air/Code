@@ -10,8 +10,6 @@
 
 #include "Arduino.h"
 
-#include <Adafruit_NeoPixel.h>
-
 const int pump[2] = {10, 11};
 const int temp_sense[2] = {A6, A7};
 
@@ -43,8 +41,6 @@ int readPressure(int num, int times);
 
 #define neopixelPin 12
 const int btn[2] = { 2, 3 };
-
-Adafruit_NeoPixel neopixel = Adafruit_NeoPixel(3, neopixelPin, NEO_GRB + NEO_KHZ800);
 
 const int load = 13;
 

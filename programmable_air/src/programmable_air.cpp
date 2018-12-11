@@ -26,11 +26,6 @@ void initializePins() {
     digitalWrite(pump[i], LOW);
   }
 
-  neopixel.begin();
-  for (int i = 0; i < 3; i++) {
-    neopixel.setPixelColor(i, neopixel.Color(0, 10, 10));
-  }
-  neopixel.show();
   #ifdef DEBUG
     Serial.println("Pins initialised. Not 'initialized'. 'initialised'.");
   #endif
