@@ -4,7 +4,7 @@ Arduino library for Programmable-Air
 
 ## Getting started:
 
-As a first step you will was to read the [README](https://github.com/Programmable-Air/PCB/) file in the PCB section to get acquainted with the hardware. This is not necessary as such, but highly recommended.
+As a first step you should read the [README](https://github.com/Programmable-Air/PCB/) file in the PCB section to get acquainted with the hardware. This is not necessary as such, but highly recommended.
 
 ### Software
 * Download and install Arduino 1.8.7
