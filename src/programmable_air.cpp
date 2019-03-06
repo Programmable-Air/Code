@@ -27,20 +27,20 @@ void initializePins() {
   }
 
   #ifdef DEBUG
-    Serial.println("Pins initialised. Not 'initialized'. 'initialised'.");
+    Serial.println("Pins initialized.");
   #endif
 }
 
-//0-blow, 1-vent, 2-suck
+//1-vent, 2-blow, 3-suck
 
 void blow(int i) {
   #ifdef DEBUG
     Serial.println("blow from daughter board # %d", i);
   #endif
-  if (i >= 0 && i <= 2) {
-    setValve(i * 3 + 0, OPEN);
-    setValve(i * 3 + 1, CLOSE);
-    setValve(i * 3 + 2, CLOSE);
+  if (i >= 1 && i <= 3) {
+    setValve((i-1) * 3 + 1, CLOSE);
+    setValve((i-1) * 3 + 2, OPEN);
+    setValve((i-1) * 3 + 3, CLOSE);
   }
 }
 
@@ -48,10 +48,10 @@ void vent(int i) {
   #ifdef DEBUG
     Serial.println("vent from daughter board # %d", i);
   #endif
-  if (i >= 0 && i <= 2) {
-    setValve(i * 3 + 0, CLOSE);
-    setValve(i * 3 + 1, OPEN);
-    setValve(i * 3 + 2, CLOSE);
+  if (i >= 1 && i <= 3) {
+    setValve((i-1) * 3 + 1, OPEN);
+    setValve((i-1) * 3 + 2, CLOSE);
+    setValve((i-1) * 3 + 3, CLOSE);
   }
 }
 
@@ -59,10 +59,10 @@ void ventQuick(int i) {
   #ifdef DEBUG
     Serial.println("ventQuick from daughter board # %d", i);
   #endif
-  if (i >= 0 && i <= 2) {
-    setValve(i * 3 + 0, CLOSE);
-    setValve(i * 3 + 1, OPEN);
-    setValve(i * 3 + 2, OPEN);
+  if (i >= 1 && i <= 3) {
+    setValve((i-1) * 3 + 1, OPEN);
+    setValve((i-1) * 3 + 2, CLOSE);
+    setValve((i-1) * 3 + 3, OPEN);
   }
 }
 
@@ -70,15 +70,24 @@ void suck(int i) {
   #ifdef DEBUG
     Serial.println("suck from daughter board # %d", i);
   #endif
-  if (i >= 0 && i <= 2) {
-    setValve(i * 3 + 0, CLOSE);
-    setValve(i * 3 + 1, CLOSE);
-    setValve(i * 3 + 2, OPEN);
+  if (i >= 1 && i <= 3) {
+    setValve((i-1) * 3 + 1, CLOSE);
+    setValve((i-1) * 3 + 2, CLOSE);
+    setValve((i-1) * 3 + 3, OPEN);
   }
 }
 
 int readBtn(int i){
-  return !digitalRead(btn[i-1]);
+  int button_status = !digitalRead(btn[i-1]);
+
+  #ifdef DEBUG
+    Serial.print("Button ");
+    Serial.print(i);
+    Serial.print(" status: ");
+    Serial.println(button_status);
+  #endif
+
+  return button_status;
 }
 
 // Read pressure
@@ -90,10 +99,11 @@ int readPressure(int num, int times) {
     Serial.print(times);
     Serial.println(" times.");
   #endif
+
   long pressure = 0;
 
   for (int i = 0; i < times; i++) {
-    pressure += analogRead(sense[num]);
+    pressure += analogRead(sense[num-1]);
   }
   pressure /= times;
 
@@ -137,11 +147,11 @@ void setValve(int number, int position) {
     }
   #endif
   if (position == OPEN) {
-    digitalWrite(valve[number], HIGH);
+    digitalWrite(valve[number - 1], HIGH);
   }
 
   if (position == CLOSE) {
-    digitalWrite(valve[number], LOW);
+    digitalWrite(valve[number - 1], LOW);
   }
 }
 
@@ -197,6 +207,15 @@ void switchOffLoad(){
     Serial.println("Switching off power to load");
   #endif
   digitalWrite(load, LOW);
+}
+
+void delayWhilePrintingPressure(unsigned long del, int n){
+  unsigned long startTime = millis();
+  while(millis() - startTime < del){
+    int pressure = readPressure(n);
+    Serial.println(pressure);
+    delay(20);
+  }
 }
 
 //

@@ -38,10 +38,15 @@ void loop() {
   int pressure_diff = pressure - atmospheric_pressure;
 
   if (pressure_diff > threshold) {
-    setAllNeopixels(pixels.Color(pressure_diff, 0, pressure_diff));
+    setAllNeopixels(pixels.Color(pressure_diff/3, 0, pressure_diff/3));
   }
-  else {
-    setAllNeopixels(pixels.Color(0, 0, 0));
+  else{
+    if (pressure_diff < - threshold) {
+      setAllNeopixels(pixels.Color(0, -pressure_diff/3, -pressure_diff/3));
+    }
+    else {
+      setAllNeopixels(pixels.Color(0, 0, 0));
+    }
   }
 
   delay(50);

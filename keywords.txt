@@ -1,0 +1,58 @@
+#######################################
+# Syntax Coloring Map
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+readPressure	KEYWORD2
+initializePins	KEYWORD2
+blow 	KEYWORD2
+vent 	KEYWORD2
+suck 	KEYWORD2
+ventQuick	KEYWORD2
+readBtn	KEYWORD2
+readPressure	KEYWORD2
+setValve	KEYWORD2
+setAllValves	KEYWORD2
+closeAllValves	KEYWORD2
+switchOnPump	KEYWORD2
+switchOffPump	KEYWORD2
+switchOnPumps	KEYWORD2
+switchOffPumps	KEYWORD2
+switchOnLoad	KEYWORD2
+switchOffLoad	KEYWORD2
+delayWhilePrintingPressure	KEYWORD2
+######################################
+# Constants (LITERAL1)
+#######################################
+OPEN	LITERAL1
+CLOSE	LITERAL1
+OPENED	LITERAL1
+CLOSED	LITERAL1
+ENGAGE	LITERAL1
+DISENGAGE	LITERAL1
+ENGAGED	LITERAL1
+DISENGAGED	LITERAL1
+
+UN_KNOWN	LITERAL1
+INCREASING	LITERAL1
+DECREASING	LITERAL1
+
+SUCKING	LITERAL1
+BLOWING	LITERAL1
+VENTING	LITERAL1
+
+RED	LITERAL1
+BLUE	LITERAL1
+
+pump	LITERAL1
+sense	LITERAL1
+valve	LITERAL1
+load	LITERAL1
+btn	LITERAL1
+neopixelPin	LITERAL1

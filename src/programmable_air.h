@@ -11,12 +11,15 @@
 #include "Arduino.h"
 
 const int pump[2] = {10, 11};
-const int temp_sense[2] = {A6, A7};
 
 #define OPEN 1
 #define CLOSE 0
 #define OPENED 1
 #define CLOSED 0
+#define ENGAGE 1
+#define DISENGAGE 0
+#define ENGAGED 1
+#define DISENGAGED 0
 
 #define UN_KNOWN -9
 #define INCREASING 1
@@ -30,9 +33,9 @@ const int temp_sense[2] = {A6, A7};
 #define BLUE 2
 
 // pressure, atmosphere, vaccuum
-const int valve[9] = {   4,  5,  6,  \
-                         7,  8,  9,  \
-                         A4, A1, A0
+const int valve[9] = {   5,  4,  6,   \
+                         8,  7,  9,   \
+                         A1, A4, A0
                      };
 
 const int sense[3] = {A3, A2, A5};
@@ -40,20 +43,20 @@ const int sense[3] = {A3, A2, A5};
 int readPressure(int num, int times);
 
 #define neopixelPin 12
-const int btn[2] = { 2, 3 };
+const int btn[2] = { 3, 2 };
 
 const int load = 13;
 
 void initializePins();
 
-void blow(int i = 0);
-void vent(int i = 0);
-void ventQuick(int i = 0);
-void suck(int i = 0);
+void blow(int i = 1);
+void vent(int i = 1);
+void ventQuick(int i = 1);
+void suck(int i = 1);
 
 int readBtn(int i);
 
-int readPressure(int num = 0, int times = 1);
+int readPressure(int num = 1, int times = 1);
 
 void setAllValves(int position);
 void setValve(int number, int position);
@@ -67,6 +70,7 @@ void switchOffPumps();
 void switchOnLoad(int percentagePower = 100);
 void switchOffLoad();
 
+void delayWhilePrintingPressure(unsigned long del, int n = 1);
 #endif
 //
 // END OF FILE

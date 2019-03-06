@@ -15,8 +15,8 @@
 int state = UN_KNOWN;
 
 int atmospheric_pressure = 508;
-int upper_threshold = 50;
-int lower_threshold = -50;
+int upper_threshold = 10;
+int lower_threshold = -10;
 
 void setup() {
   initializePins();
@@ -33,7 +33,7 @@ void setup() {
 
 void loop() {
   int pressure = readPressure();
-  int pressure_diff = atmospheric_pressure - pressure;
+  int pressure_diff = pressure - atmospheric_pressure;
   Serial.println(pressure_diff);
 
   if (readBtn(RED)) {
