@@ -26,6 +26,7 @@ That's it! Try uploading the pressureSensor example and launch the Serial plotte
 ### Description of functions:
 
 `initializePins()`
+
 Initializes the pins as INPUT or OUTPUT and starts the Serial port at 9600 baud. If you want to use pins to attach external hardware, set their pinMode after calling this.
 * Does not return anything.
 
@@ -102,8 +103,8 @@ Switches on pump motor # num to PWM percentage percentagePower.
 
 Switches off motor number num
 
-	* Does not return anything.
-	* num - int 1 or 2
+* Does not return anything.
+* num - int 1 or 2
 
 `switchOnPumps(int percentagePower = 100);`
 
