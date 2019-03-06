@@ -19,7 +19,7 @@ As a first step you should read the [README](https://github.com/Programmable-Air
 
 * Select Tools>Board>Arduino Nano
 * If you are on a new version of Arduino >=1.8.7 select Processor: AtMega328(Old bootloader)
-* Select the corresponding Port (if no new port shows up you’ll have to download and install the CH340 drivers- [Mac](http://www.wch.cn/downloads/CH341SER_MAC_ZIP.html) [Windows](http://www.wch.cn/downloads/CH341SER_ZIP.html) [Linux](http://www.wch.cn/downloads/CH341SER_LINUX_ZIP.html) ) The link looks sketchy and in Chinese, but it is the manufacturer’s website with the most updated version of the driver. Refrain from downloading drivers from any other source!
+* Select the corresponding Port (if no new port shows up you’ll have to download and install the CH340 drivers- [Mac](http://www.wch.cn/downloads/CH341SER_MAC_ZIP.html) [Windows](https://sparks.gogo.co.nz/ch340.html) [Linux](http://www.wch.cn/downloads/CH341SER_LINUX_ZIP.html) ) The link looks sketchy and in Chinese, but it is the manufacturer’s website with the most updated version of the driver. Refrain from downloading drivers from any other source!
 
 That's it! Try uploading the pressureSensor example and launch the Serial plotter to see the pressure plot. Blow into the output tube, or suck the air out to see the change in pressure.
 
