@@ -32,26 +32,26 @@ Initializes the pins as INPUT or OUTPUT and starts the Serial port at 9600 baud.
 * Does not return anything.
 
 
-`blow(int i = 0);`
+`blow(int i = 1);`
 
 Used to blow air into the output tube. Engages valve #2 and disengages valve #1 and #3.
 * Does not return anything.
 * Accepts integer value of the slave board. Acceptable values 1, 2, or 3. Defaults to 1(the slave board below the master board).
 
-`vent(int i = 0);`
+`vent(int i = 1);`
 
 Used to vent air from output tube to the atmosphere. Engages valve #1 and disengages valve #2 and #3.
 * Does not return anything.
 * Accepts integer value of the slave board. Acceptable values 1, 2, or 3. Defaults to 1(the slave board below the master board).
 
 
-`ventQuick(int i = 0);`
+`ventQuick(int i = 1);`
 
 Used to release air quickly out of the output tube. Engages valve #1, and #3 and disengages valve #1.
 * Does not return anything.
 * Accepts integer value of the slave board. Acceptable values 1, 2, or 3. Defaults to 1(the slave board below the master board).
 
-`suck(int i = 0);`
+`suck(int i = 1);`
 
 Used to suck air out of the output tube. Engages valve #3 and disengages valve #1 and #2.
 * Does not return anything.
@@ -65,7 +65,7 @@ Returns 1 if the button is pressed, 0 if not.
 * Accepts button number or color. RED is button #1, BLUE is button #2
 
 
-`readPressure(int num = 0, int times = 1);`
+`readPressure(int num = 1, int times = 1);`
 
 Returns the pressure value. The value is ~508 for atmospheric pressure. Greater for more pressure and lesser for less pressure.
 * Return type : int
