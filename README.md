@@ -2,6 +2,10 @@
 
 Arduino library for Programmable-Air
 
+## Crowdfunding live at [CrowdSupply](https://www.crowdsupply.com/tinkrmind/programmable-air)
+
+[![Programmable-Air at CrowdSupply](https://i.imgur.com/vPuFaX5.png)](https://www.crowdsupply.com/tinkrmind/programmable-air)
+
 ## Getting started:
 
 As a first step you should read the [README](https://github.com/Programmable-Air/PCB/) file in the PCB section to get acquainted with the hardware. This is not necessary as such, but highly recommended.
@@ -37,6 +41,7 @@ Initializes the pins as INPUT or OUTPUT and starts the Serial port at 9600 baud.
 Used to blow air into the output tube. Engages valve #2 and disengages valve #1 and #3.
 * Does not return anything.
 * Accepts integer value of the slave board. Acceptable values 1, 2, or 3. Defaults to 1(the slave board below the master board).
+
 
 `vent(int i = 1);`
 
