@@ -24,33 +24,33 @@ void setup() {
 
   // Pumps
   switchOnPump(1, 100);
-  delay(500);
+  delay(2500);
   switchOffPump(1);
-  delay(500);
+  delay(2500);
   switchOnPumps(50);
-  delay(500);
+  delay(2500);
   switchOffPumps();
-  delay(500);
+  delay(2500);
 
   // Valves
-  blow();
-  delay(500);
-  suck();
-  delay(500);
   vent();
-  delay(500);
+  delay(2500);
+  blow();
+  delay(2500);
+  suck();
+  delay(2500);  
   ventQuick();
-  delay(500);
+  delay(2500);
 
   setValve(1, OPEN);
-  delay(500);
+  delay(2500);
   setValve(1, CLOSE);
-  delay(500);
+  delay(2500);
 
   setAllValves(OPEN);
-  delay(500);
+  delay(2500);
   closeAllValves();
-  delay(500);
+  delay(2500);
 }
 
 void loop() {
