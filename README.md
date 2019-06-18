@@ -2,6 +2,10 @@
 
 Arduino library for Programmable-Air
 
+## Crowdfunding live at [CrowdSupply](https://www.crowdsupply.com/tinkrmind/programmable-air)
+
+[![Programmable-Air at CrowdSupply](https://i.imgur.com/vPuFaX5.png)](https://www.crowdsupply.com/tinkrmind/programmable-air)
+
 ## Getting started:
 
 As a first step you should read the [README](https://github.com/Programmable-Air/PCB/) file in the PCB section to get acquainted with the hardware. This is not necessary as such, but highly recommended.
@@ -19,6 +23,7 @@ As a first step you should read the [README](https://github.com/Programmable-Air
 
 * Select Tools>Board>Arduino Nano
 * If you are on a new version of Arduino >=1.8.7 select Processor: AtMega328(Old bootloader)
+![alt text](https://i.imgur.com/l7Na4zt.png "Procesor selection")
 * Select the corresponding Port (if no new port shows up you’ll have to download and install the CH340 drivers- [Mac](http://www.wch.cn/downloads/CH341SER_MAC_ZIP.html) [Windows](https://sparks.gogo.co.nz/ch340.html) [Linux](http://www.wch.cn/downloads/CH341SER_LINUX_ZIP.html) ) The link looks sketchy and in Chinese, but it is the manufacturer’s website with the most updated version of the driver. Refrain from downloading drivers from any other source!
 
 That's it! Try uploading the pressureSensor example and launch the Serial plotter to see the pressure plot. Blow into the output tube, or suck the air out to see the change in pressure.
@@ -31,26 +36,27 @@ Initializes the pins as INPUT or OUTPUT and starts the Serial port at 9600 baud.
 * Does not return anything.
 
 
-`blow(int i = 0);`
+`blow(int i = 1);`
 
 Used to blow air into the output tube. Engages valve #2 and disengages valve #1 and #3.
 * Does not return anything.
 * Accepts integer value of the slave board. Acceptable values 1, 2, or 3. Defaults to 1(the slave board below the master board).
 
-`vent(int i = 0);`
+
+`vent(int i = 1);`
 
 Used to vent air from output tube to the atmosphere. Engages valve #1 and disengages valve #2 and #3.
 * Does not return anything.
 * Accepts integer value of the slave board. Acceptable values 1, 2, or 3. Defaults to 1(the slave board below the master board).
 
 
-`ventQuick(int i = 0);`
+`ventQuick(int i = 1);`
 
 Used to release air quickly out of the output tube. Engages valve #1, and #3 and disengages valve #1.
 * Does not return anything.
 * Accepts integer value of the slave board. Acceptable values 1, 2, or 3. Defaults to 1(the slave board below the master board).
 
-`suck(int i = 0);`
+`suck(int i = 1);`
 
 Used to suck air out of the output tube. Engages valve #3 and disengages valve #1 and #2.
 * Does not return anything.
@@ -64,7 +70,7 @@ Returns 1 if the button is pressed, 0 if not.
 * Accepts button number or color. RED is button #1, BLUE is button #2
 
 
-`readPressure(int num = 0, int times = 1);`
+`readPressure(int num = 1, int times = 1);`
 
 Returns the pressure value. The value is ~508 for atmospheric pressure. Greater for more pressure and lesser for less pressure.
 * Return type : int
