@@ -7,7 +7,7 @@
 #include "programmable_air.h"
 
 #include <Adafruit_NeoPixel.h>
-Adafruit_NeoPixel pixels = Adafruit_NeoPixel(3, neopixelPin, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel paPixels = Adafruit_NeoPixel(3, neopixelPin, NEO_GRB + NEO_KHZ800);
 
 #define DEBUG 1
 
@@ -15,12 +15,12 @@ void setup() {
   initializePins();
 
   //neopixels
-  pixels.begin();
+  paPixels.begin();
   for (int i = 0; i < 3; i++) {
     // pixels.Color(red, green, blue)
-    pixels.setPixelColor(i, pixels.Color(0, 100, 100));
+    paPixels.setPixelColor(i, pixels.Color(0, 100, 100));
   }
-  pixels.show();
+  paPixels.show();
 
   // Pumps
   switchOnPump(1, 100);
@@ -57,5 +57,5 @@ void loop() {
   int pressure = readPressure();
   Serial.println(pressure);
   
-  delayWhilePrintingPressure(200);
+  delayWhileReadingPressure(200);
 }

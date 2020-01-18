@@ -37,7 +37,7 @@ void loop() {
     closeAllValves();
     switchOffPumps();
   }
-  delayWhilePrintingPressure(50);
+  delayWhileReadingPressure(50);
 }
 
 void contract() {
@@ -45,7 +45,7 @@ void contract() {
   if(pressure_diff < upper_threshold) {
     switchOnPump(2);
     blow();
-    delayWhilePrintingPressure(250);
+    delayWhileReadingPressure(250);
   }  
   else{
     closeAllValves();

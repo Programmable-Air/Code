@@ -9,6 +9,7 @@
 #define programmable_air_h
 
 #include "Arduino.h"
+#include "Adafruit_NeoPixel.h"
 
 const int pump[2] = {10, 11};
 
@@ -32,12 +33,29 @@ const int pump[2] = {10, 11};
 #define RED 1
 #define BLUE 2
 
+extern Adafruit_NeoPixel pixels;
+
+#ifndef BOARD_VER
 // pressure, atmosphere, vaccuum
 const int valve[9] = {   5,  4,  6,   \
                          8,  7,  9,   \
                          A1, A4, A0
                      };
-
+#else
+#if BOARD_VER == 6
+//  atmosphere, pressure, vaccuum
+const int valve[9] = {   6,  5,  4,   \
+                         9,  8,  7,   \
+                         A0, A1, A4
+                     };
+#else
+  // pressure, atmosphere, vaccuum
+  const int valve[9] = {   5,  4,  6,   \
+                           8,  7,  9,   \
+                           A1, A4, A0
+                       };
+#endif
+#endif
 const int sense[3] = {A3, A2, A5};
 
 int readPressure(int num, int times);
@@ -70,7 +88,11 @@ void switchOffPumps();
 void switchOnLoad(int percentagePower = 100);
 void switchOffLoad();
 
-void delayWhilePrintingPressure(unsigned long del, int n = 1);
+// void delayWhilePrintingPressure(unsigned long del, int threshold = 8);
+
+int showPressure(int atmospheric_pressure = 500, int threshold = 8);
+void delayWhileReadingPressure(unsigned long del);
+void setAllNeopixels(uint32_t c);
 #endif
 //
 // END OF FILE

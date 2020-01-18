@@ -4,12 +4,17 @@
 //
 // PCB v0.3/v0.4/v0.5
 //
-
+#define BOARD_VER 6
 #include "programmable_air.h"
+#include "Adafruit_NeoPixel.h"
+#include <EEPROM.h>
+
+Adafruit_NeoPixel pixels(3, neopixelPin, NEO_GRB + NEO_KHZ800);
 
 void initializePins() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   while (!Serial);
+  analogReference(EXTERNAL);
 
   for (int i = 0; i < 9; i++) {
     pinMode(valve[i], OUTPUT);
@@ -25,6 +30,9 @@ void initializePins() {
     pinMode(pump[i], OUTPUT);
     digitalWrite(pump[i], LOW);
   }
+
+  pixels.begin();
+  pixels.show();
 
   #ifdef DEBUG
     Serial.println("Pins initialized.");
@@ -117,7 +125,7 @@ int readPressure(int num, int times) {
 
 void setAllValves(int position) {
   #ifdef DEBUG
-    Serial.print("Setting all valves to ")
+    Serial.print("Setting all valves to ");
     if(position == OPEN){
       Serial.println("open");
     } else{
@@ -139,7 +147,9 @@ void setAllValves(int position) {
 
 void setValve(int number, int position) {
   #ifdef DEBUG
-    Serial.print("Setting valve # %d to ", number)
+    Serial.print("Setting valve #");
+    Serial.print(number);
+    Serial.print(" to ");
     if(position == OPEN){
       Serial.println("open");
     } else{
@@ -209,14 +219,57 @@ void switchOffLoad(){
   digitalWrite(load, LOW);
 }
 
-void delayWhilePrintingPressure(unsigned long del, int n){
+// void delayWhilePrintingPressure(unsigned long del, int n){
+//   unsigned long startTime = millis();
+//   while(millis() - startTime < del){
+//     int pressure = readPressure(n);
+//     Serial.println(pressure);
+//     delay(20);
+//   }
+// }
+
+int showPressure(int atmospheric_pressure, int threshold){
+  int calibratedPressure = 0;
+  calibratedPressure += EEPROM.read(3)<<24;
+  calibratedPressure += EEPROM.read(2)<<16;
+  calibratedPressure += EEPROM.read(1)<<8;
+  calibratedPressure += EEPROM.read(0);
+  if(calibratedPressure > 450 && calibratedPressure < 550){
+    atmospheric_pressure = calibratedPressure;
+  }
+  int pressure = readPressure();
+  Serial.println(pressure);
+
+  int pressure_diff = pressure - atmospheric_pressure;
+
+  if (pressure_diff > threshold) {
+    setAllNeopixels(pixels.Color(pressure_diff/3, 0, pressure_diff/3));
+  }
+  if (pressure_diff < -threshold) {
+    setAllNeopixels(pixels.Color(0, -pressure_diff/3, -pressure_diff/3));
+  }
+  if (abs(pressure_diff) < threshold) {
+    setAllNeopixels(pixels.Color(0, 0, 0));
+  }
+
+  return pressure;
+}
+
+void delayWhileReadingPressure(unsigned long del){
   unsigned long startTime = millis();
   while(millis() - startTime < del){
-    int pressure = readPressure(n);
-    Serial.println(pressure);
+    showPressure();
     delay(20);
   }
 }
+
+void setAllNeopixels(uint32_t c){
+    for (int i = 0; i < 3; i++) {
+      pixels.setPixelColor(i, c);
+    }
+    pixels.show();
+}
+
 
 //
 // END OF FILE

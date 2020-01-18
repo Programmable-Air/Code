@@ -4,7 +4,7 @@
 //
 // Airbrush
 //
-// PCB v0.3/v0.4/v0.5
+// NOTE: both motors used as high pressure pumps
 
 #include "programmable_air.h"
 
@@ -18,7 +18,7 @@ void setup() {
 }
 
 void loop() {
-  if(!digitalRead(A0)){
+  if(!digitalRead(A0) || readBtn(RED)){
     switchOnPumps();
     setValve(2, OPEN);
     setValve(3, OPEN);

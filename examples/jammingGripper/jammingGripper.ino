@@ -7,12 +7,11 @@
 // Also works as an SMD pick and place!
 // Demo video: https://vimeo.com/268358924
 //
-// PCB v0.3/v0.4/v0.5
+// PCB v1.0
 
 #include "programmable_air.h"
 
 #include <Adafruit_NeoPixel.h>
-Adafruit_NeoPixel pixels = Adafruit_NeoPixel(3, neopixelPin, NEO_GRB + NEO_KHZ800);
 
 #define DEBUG 1
 
@@ -23,8 +22,6 @@ int threshold = 8;
 
 void setup() {
   initializePins();
-  pixels.begin();
-  pixels.show();
 }
 
 void loop() {
@@ -58,38 +55,4 @@ void loop() {
   }
 
   delayWhileReadingPressure(200);
-}
-
-int showPressure(){
-  int pressure = readPressure();
-  Serial.println(pressure);
-
-  int pressure_diff = pressure - atmospheric_pressure;
-
-  if (pressure_diff > threshold) {
-    setAllNeopixels(pixels.Color(pressure_diff/3, 0, pressure_diff/3));
-  }
-  if (pressure_diff < -threshold) {
-    setAllNeopixels(pixels.Color(0, -pressure_diff/3, -pressure_diff/3));
-  }
-  if (abs(pressure_diff) < threshold) {
-    setAllNeopixels(pixels.Color(0, 0, 0));
-  }
-
-  return pressure;
-}
-
-void delayWhileReadingPressure(unsigned long del){
-  unsigned long startTime = millis();
-  while(millis() - startTime < del){
-    showPressure();
-    delay(20);
-  }
-}
-
-void setAllNeopixels(uint32_t c){
-    for (int i = 0; i < 3; i++) {
-      pixels.setPixelColor(i, c);
-    }
-    pixels.show();
 }
