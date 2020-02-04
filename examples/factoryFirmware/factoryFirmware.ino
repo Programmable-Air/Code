@@ -6,7 +6,7 @@
 //
 // PCB v1.0
 #define BOARD_VER 6
-#include "programmable_air.h"
+#include "programmableAirNew.h"
 #include <Adafruit_NeoPixel.h>
 #include "EEPROMAnything.h"
 Adafruit_NeoPixel paPixels(3, 12, NEO_GRB + NEO_KHZ800);
@@ -61,7 +61,7 @@ const char helpText[] PROGMEM =
   "\t * All this while, the pressure is being reported on the neopixel; \n"
   "\t   bright cyan is low pressure and bright purple is high pressure. \n"
   "\t * If the neopixels are dim or off, pressure is close to the atmospheric pressure. \n"
-  "\t   (Atleast in Manhattan on Friday Oct 18th around 6pm, when I calibrated this board!) \n"
+  "\t   (Atleast in Manhattan on Saturday Oct 26th around 6pm, when I calibrated this board!) \n"
   "\t * The pressure is also being reported in the Serial port as numbers \n"
   "\t   (which is why you had to scroll so much to see this message :P ) \n"
   "\t * Whatever you do, don't block the output tube and send 'test' over serial. \n"
@@ -80,7 +80,6 @@ void setup() {
 
   if (readBtn(BLUE) && readBtn(RED)) {
     testMode();
-
   }
   printHelpText();
 }
@@ -97,6 +96,13 @@ void loop() {
     if (data == "music" || data == "music\n" || data == "music\r\n" || data == "music\r") {
       playMusic();
     }
+    if (data == "allGood" || data == "allGood\n" || data == "allGood\r\n" || data == "allGood\r") {
+      allGood();
+    }
+    if (data == "allBad" || data == "allBad\n" || data == "allBad\r\n" || data == "allBad\r") {
+      allBad();
+    }
+
   }
 
   showPressure();
@@ -147,17 +153,100 @@ void loop() {
 }
 
 void testMode() {
-
+  for (int i = 0; i < 3; i++) {
+    paPixels.setPixelColor(i, paPixels.Color(0, 0, 100));
+  }
+  paPixels.show();
+  // check that pressure sensor is working
+  vent();
+  delay(1000);
+  int calibratedPressure = readPressure(1, 10);
+  Serial.print("Calibrated Pressure : ");
+  Serial.println(calibratedPressure);
+  if (calibratedPressure < 450 || calibratedPressure > 575) {
+    error();
+  }
+  EEPROM_writeAnything(0, calibratedPressure);
+  // check that high pressure is being generated
+  closeAllValves();
+  switchOffPumps();
+  delay(100);
+  switchOnPump(2);
+  blow();
+  delay(1000);
+  int highPressure = readPressure(1, 10);
+  Serial.print("High Pressure : ");
+  Serial.println(highPressure);
+  EEPROM_writeAnything(4, highPressure);
+  if (highPressure < 750) {
+    error();
+  }
+  // check that low pressure is generated
+  closeAllValves();
+  switchOffPumps();
+  delay(1000);
+  switchOnPump(1);
+  suck();
+  delay(1000);
+  int lowPressure = readPressure(1, 10);
+  Serial.print("Low Pressure : ");
+  Serial.println(lowPressure);
+  EEPROM_writeAnything(8, lowPressure);
+  if (lowPressure > 225) {
+    error();
+  }
+  // check that pressure is held
+  closeAllValves();
+  switchOffPumps();
+  delay(1000);
+  int heldPressure = readPressure(1, 10);
+  Serial.print("Held Pressure : ");
+  Serial.println(heldPressure);
+  EEPROM_writeAnything(12, heldPressure);
+  if (abs(lowPressure - heldPressure) > 10) {
+    error();
+  }
+  // check that venting works
+  closeAllValves();
+  switchOffPumps();
+  vent();
+  delay(1000);
+  int ventPressure = readPressure(1, 10);
+  Serial.print("Vent Pressure : ");
+  Serial.println(ventPressure);
+  EEPROM_writeAnything(16, ventPressure);
+  if (abs(ventPressure - calibratedPressure) > 10) {
+    error();
+  }
+  // Test if blow/suck valves leak
+  switchOnPumps();
+  delay(5000);
+  int witheldPressure = readPressure(1, 10);
+  Serial.print("witheldPressure Pressure : ");
+  Serial.println(witheldPressure);
+  EEPROM_writeAnything(16, witheldPressure);
+  if (abs(witheldPressure - calibratedPressure) > 10) {
+    error();
+  }
+  
+  Serial.println("TESTED OK");
+  for (int i = 0; i < 3; i++) {
+    paPixels.setPixelColor(i, paPixels.Color(0, 100, 0));
+  }
+  paPixels.show();
+  allGood();
+  delay(1000);
 }
 
 void error() {
   Serial.println("ERROR");
-  switchOffPumps();
-  closeAllValves();
   for (int i = 0; i < 3; i++) {
     paPixels.setPixelColor(i, paPixels.Color(100, 0, 0));
   }
   paPixels.show();
+  allBad();
+  switchOffPumps();
+  closeAllValves();
   while (1);
 }
 
@@ -170,25 +259,74 @@ void printHelpText() {
 }
 
 void playMusic() {
-  int notes[] = {100, 100, 100, 80, 100, 100, 90, 90, 75, 60, 100, 60, 100, 65, 60, 55, 45, 100, 90, 85, 85, 100, 85, 100, 100, 60};
-  int delays[] = {100, 100, 300, 200, 300, 200, 100, 200, 200, 100, 200, 100, 200, 100, 200, 100, 200, 100, 100, 100, 200, 100, 200, 400, 100, 1000};
+  int notes[] = {
+    70, 80, 100, 90,
+    70, 80, 100, 90,
+    70, 80, 100, 90,
+    70, 70, 90, 100,
+    80, 80, 100, 90,
+    80, 80, 100, 90,
+    70, 80, 100, 90,
+    70, 80, 100, 90,
+    70, 70, 90, 100,
+    50, 60, 70, 80
+  };
+  int actionDelay = 80;
+  int offTimeDelay = 105;
+  int sizeOfNotes = sizeof(notes) / sizeof(notes[0]);
+  int increaseSpeedPoint = 13;
   Serial.println("Music sequence playing");
-  for (int i = 0; i <= sizeof(notes); i++) {
-    //cycle through the notes[] array
+  for (int i = 0; i <= sizeOfNotes - 1; i++) {
     switchOnPump(1, notes[i]);
     suck();
-    //cycle through the delays[] array
-    delay(delays[i]);
-    closeAllValves();
+    delay(actionDelay);
     switchOffPumps();
-    vent();
-    delay(delays[i+1]);
+    delay(offTimeDelay);
     switchOnPump(1, notes[i]);
     blow();
-    delay(delays[i+2]);
+    delay(actionDelay);
+    switchOffPumps();
+    vent();
+    delay(actionDelay);
+
+    switchOffPumps();
+    delay(offTimeDelay);
+    if (i >= sizeOfNotes - increaseSpeedPoint) {
+      offTimeDelay = offTimeDelay * .8;
+      actionDelay = offTimeDelay * .8;
+    }
   }
-  closeAllValves();
-  switchOffPumps();
-  vent();
-  delay(200);
+}
+
+void allGood() {
+  int notes[] = {70, 80, 100};
+  int actionDelay = 300;
+  int sizeOfNotes = sizeof(notes) / sizeof(notes[0]);
+  Serial.println("Everything is good! :) ");
+
+  for (int i = 0; i <= sizeOfNotes - 1; i++) {
+    switchOnPump(1, notes[i]);
+    suck();
+    delay(actionDelay);
+    switchOffPumps();
+  }
+}
+
+void allBad() {
+  int notes[] = {100, 80, 70};
+  int actionDelay = 420;
+  int sizeOfNotes = sizeof(notes) / sizeof(notes[0]);
+  Serial.println("Err, something went wrong :( ");
+
+  for (int i = 0; i <= sizeOfNotes - 1; i++) {
+    if (i == sizeOfNotes - 1) {
+      actionDelay = 600;
+    }
+    switchOnPump(1, notes[i]);
+    suck();
+    delay(actionDelay);
+    switchOffPumps();
+    Serial.print("i: ");
+    Serial.println(i);
+  }
 }
