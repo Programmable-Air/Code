@@ -6,7 +6,7 @@
 //
 // PCB v1.0
 #define BOARD_VER 6
-#include "programmableAirNew.h"
+#include "programmable_air.h"
 #include <Adafruit_NeoPixel.h>
 #include "EEPROMAnything.h"
 Adafruit_NeoPixel paPixels(3, 12, NEO_GRB + NEO_KHZ800);
@@ -64,8 +64,8 @@ const char helpText[] PROGMEM =
   "\t   (Atleast in Manhattan on Saturday Oct 26th around 6pm, when I calibrated this board!) \n"
   "\t * The pressure is also being reported in the Serial port as numbers \n"
   "\t   (which is why you had to scroll so much to see this message :P ) \n"
-  "\t * Whatever you do, don't block the output tube and send 'test' over serial. \n"
-  "\t   Sending 'music' or 'help' over serial is not a good idea either.\n\n"
+  "\t * To test the device block the output tube and send 'test' over serial. \n"
+  "\t * Try sending 'music' or 'help' over serial :)\n\n"
   "\t\t\t\tHappy hacking!\n"
   "\t\t\t\t\t\t\t\t\t-tinkrmind \n"
   "------------------------------------------------------------------------------------ \n";
