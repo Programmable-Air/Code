@@ -2,7 +2,7 @@
 
 Arduino library for Programmable-Air
 
-## Crowdfunding live at [CrowdSupply](https://www.crowdsupply.com/tinkrmind/programmable-air)
+## Crowdfunded on [CrowdSupply](https://www.crowdsupply.com/tinkrmind/programmable-air)
 
 [![Programmable-Air at CrowdSupply](https://i.imgur.com/vPuFaX5.png)](https://www.crowdsupply.com/tinkrmind/programmable-air)
 
