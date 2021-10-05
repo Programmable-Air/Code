@@ -27,6 +27,7 @@ switchOffPumps	KEYWORD2
 switchOnLoad	KEYWORD2
 switchOffLoad	KEYWORD2
 delayWhileReadingPressure	KEYWORD2
+showPressure KEYWORD2
 ######################################
 # Constants (LITERAL1)
 #######################################
