@@ -10,7 +10,7 @@
 
 #include "programmable_air.h"
 
-#define DEBUG 1
+#define DEBUG 0
 
 void setup() {
   initializePins();
@@ -21,8 +21,11 @@ void loop() {
 
   // if the RED button is pressed blow air into the output, else, vent to atmosphere
   if(readBtn(RED)){
+    // switch on Pump 2 (blow) to 50% duty cycle
+    switchOnPump(2,50);
     blow();
   } else{
+    switchOffPumps();
     vent();
   }
 }

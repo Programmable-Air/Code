@@ -21,6 +21,8 @@ void loop() {
 
   // if the BLUE button is pressed suck air out of the output, else, vent to atmosphere
   if(readBtn(BLUE)){
+    // switch on Pump 1 (suck) to 50% duty cycle
+    switchOnPump(1, 50);
     suck();
   } else{
     vent();

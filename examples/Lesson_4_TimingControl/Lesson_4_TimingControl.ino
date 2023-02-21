@@ -17,9 +17,12 @@ void setup() {
 }
 
 void loop() {
+  // switch on (blow) to 50% duty cycle
+  switchOnPump(2,50);
   blow();
   delayWhileReadingPressure(1000);
 
+  switchOffPumps();
   vent();
   delayWhileReadingPressure(1000);
 }

@@ -20,7 +20,7 @@ void loop() {
   // STEP 1 : Read pressure only. Valves and Pumps are all off. 
   // You can turn the vent valve on and off manually using the yellow button.
   // Using a syringe or your mouth try blowing or sucking on the output tube and see how the pressure and thus neopixels are affected.
-  delayWhileReadingPressure(200);
+  // delayWhileReadingPressure(200);
 
   // STEP 2: Vent the output tube. See if you can affect the neopixels with the following line uncommented.
   vent();
