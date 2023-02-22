@@ -9,6 +9,12 @@
 // PCB v0.3/v0.4/v0.5
 
 #include "programmable_air.h"
+#include <SharpIR.h>
+
+#define MIN_DISTANCE 45
+#define MAX_DISTANCE 55
+int distance;
+SharpIR sensor( SharpIR::GP2Y0A02YK0F, A0);
 
 #define DEBUG 1
 
@@ -20,11 +26,19 @@ void loop() {
   if (readBtn(RED)) {
     switchOnPump(2);
     blow(); // setValve(2, OPEN); setValve(1, CLOSED); setValve(3, CLOSED);
-    delayWhileReadingPressure(1000);
+    distance = sensor.getDistance();
+    while(distance > MIN_DISTANCE){
+        delayWhileReadingPressure(100);
+        distance = sensor.getDistance();
+    }
 
     switchOffPumps();
     vent();
-    delayWhileReadingPressure(1000);
+    distance = sensor.getDistance();
+    while(distance < MAX_DISTANCE){
+        delayWhileReadingPressure(100);
+        distance = sensor.getDistance();
+    }
   }
   else {
     delayWhileReadingPressure(100);
