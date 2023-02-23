@@ -24,7 +24,7 @@ void loop() {
   // if the RED button is pressed blow air into the output, else, vent to atmosphere
   if(readBtn(RED)){
     // switch on Load to 50% duty cycle
-    switchOnLoad(50);
+    switchOnLoad();
     blow();
   } else{
     switchOffLoad();
