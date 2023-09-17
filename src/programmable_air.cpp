@@ -69,8 +69,8 @@ void ventQuick(int i) {
   #endif
   if (i >= 1 && i <= 3) {
     setValve((i-1) * 3 + 1, OPEN);
-    setValve((i-1) * 3 + 2, CLOSE);
-    setValve((i-1) * 3 + 3, OPEN);
+    setValve((i-1) * 3 + 2, OPEN);
+    setValve((i-1) * 3 + 3, CLOSE);
   }
 }
 
