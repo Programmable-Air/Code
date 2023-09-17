@@ -25,6 +25,7 @@ void loop() {
     switchOnPump(1, 50);
     suck();
   } else{
+    switchOffPumps();
     vent();
   }
 }
