@@ -238,7 +238,9 @@ int showPressure(int atmospheric_pressure, int threshold){
     atmospheric_pressure = calibratedPressure;
   }
   int pressure = readPressure();
-  Serial.println(pressure);
+  #ifdef DEBUG
+    Serial.println(pressure);
+    #endif
 
   int pressure_diff = pressure - atmospheric_pressure;
 
